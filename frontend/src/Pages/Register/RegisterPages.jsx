@@ -1,7 +1,8 @@
 import { useState } from "react";
 import InputBox from "../../components/input/inputbox";
-import Buttons from "../../components/buttons/button"
+import Buttons from "../../components/buttons/button";
 import axios from 'axios';
+import BasicAlerts from "../../Components/alert/alert";
 
 const RegisterPage = () => {
     const [inputusername, setInputusername] = useState('');
@@ -9,6 +10,8 @@ const RegisterPage = () => {
     const [inputEmail, setInputEmail] = useState('');
     const [inputname, setInputname] = useState('');
     const [error, setError] = useState('');
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertSeverity, setAlertSeverity] = useState('');
 
     const handleInputChange = (e, inputType) => {
         const value = e.target.value;
@@ -36,15 +39,17 @@ const RegisterPage = () => {
     
         try {
             const response = await axios.post(`${url}/register`, data);
-            if (response?.status === 200) {
-                console.log('Registration successful:', response.data);
-                // Optionally, redirect or show a success message
-            } else {
-                throw new Error('Registration failed');
-            }
+            setAlertMessage('Registration successful!');
+            setAlertSeverity('success');
         } catch (error) {
-            console.error('Error:', error?.message ?? 'Unknown error');
-            setError('Register failed. Please check your credentials and try again.');
+            if (error.response) {
+                setAlertMessage(`Registration failed: ${error.response.data.message}`);
+            } else if (error.request) {
+                setAlertMessage('Registration failed: No response from server.');
+            } else {
+                setAlertMessage(`Registration failed: ${error.message}`);
+            }
+            setAlertSeverity('error');
         }
     };
 
@@ -55,6 +60,7 @@ const RegisterPage = () => {
                     <div className="px-6 py-4">
                         <h3 className="mt-3 text-xl font-medium text-center text-gray-600 dark:text-gray-200">Register</h3>
                         <p className="mt-1 text-center text-gray-500 dark:text-gray-400">Create your account</p>
+                        {alertMessage && <BasicAlerts severity={alertSeverity} message={alertMessage} />}
                         <form onSubmit={handleSubmit}>
                             <InputBox
                                 type="text"

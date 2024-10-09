@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
+        //
         Schema::table('users', function (Blueprint $table) {
-            //
-            // $table->string('username');
+            $table->dropUnique(['users_email_unique ']); // Remove unique constraint
         });
     }
 
@@ -22,8 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        //
     }
 };
