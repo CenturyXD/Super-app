@@ -27,7 +27,9 @@ const RegisterPage = () => {
     };
 
     const handleSubmit = async (e) => {
+        
         e.preventDefault();
+        error('');
         setError('');
         const url = import.meta.env.VITE_API_URL;
         const data = {
@@ -39,6 +41,7 @@ const RegisterPage = () => {
     
         try {
             const response = await axios.post(`${url}/register`, data);
+            console.log(response);
             setAlertMessage('Registration successful!');
             setAlertSeverity('success');
         } catch (error) {

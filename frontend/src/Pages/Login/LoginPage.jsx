@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BasicAlerts from "../../Components/alert/alert";
+import { useAuth } from "../../components/auth/AuthContext";
 
 const LoginPage = () => {
     const [username, setusername] = useState('');
@@ -10,6 +11,7 @@ const LoginPage = () => {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('');
     const navigate = useNavigate();
+    const { login } = useAuth(); // ใช้ฟังก์ชัน login จาก context
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,7 +23,12 @@ const LoginPage = () => {
                 password,
             });
 
+            // Assuming the response contains a token
+            const token = response.data.token;
 
+            // Save the token in local storage or context
+            login(token);
+            
             setAlertMessage('Login successful!');
             setAlertSeverity('success');
             navigate('/Home');

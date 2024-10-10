@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
+
 
 
 class AuthController extends Controller
@@ -35,8 +35,7 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'username' => $request->username,
                 'password' => Hash::make($request->password),
-                'email' => $request->email,
-                'remember_token' => Str::random(20)
+                'email' => $request->email
             ]);
 
             return response()->json([
@@ -76,6 +75,7 @@ class AuthController extends Controller
         // Get the authenticated user
         $user = Auth::user();
 
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'message' => 'User logged in successfully',
