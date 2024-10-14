@@ -1,11 +1,15 @@
 import React from 'react';
+import Calendar from  '../../Components/Celendar/calendar';
+import NavbarPage from '../../Components/navbar/navbarPage';
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col justify-center items-center h-screen text-center">
-      <h1>Welcome to the Home Page</h1>
-      <p>This is the home page of our application.</p>
-    </div>
+    <>
+    <NavbarPage />
+    <div className="mt-16"> {/* Add margin-top to create space */}
+        <Calendar />
+      </div>
+    </>
   );
 };
 

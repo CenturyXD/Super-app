@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+
+.swal2-delete-button {
+  background-color: #d33 !important; /* สีแดง */
+  color: white !important; /* สีตัวอักษร */
+}

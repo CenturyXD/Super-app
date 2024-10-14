@@ -2,14 +2,16 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BasicAlerts from "../../Components/alert/alert";
+import { useAuth } from "../../components/auth/AuthContext";
 
 const LoginPage = () => {
-    const [username, setusername] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('');
     const navigate = useNavigate();
+    const { login } = useAuth(); // Use the login function from context
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,11 +23,16 @@ const LoginPage = () => {
                 password,
             });
 
+            // Extract token and username from the response
+            const token = response.data.token;
+            const usernameFromResponse = response.data.user.name;
 
+            // Save the token and username in local storage or context
+            login(token, usernameFromResponse);
+            
             setAlertMessage('Login successful!');
             setAlertSeverity('success');
             navigate('/Home');
-            // Handle successful login (e.g., redirect to dashboard)
         } catch (error) {
             if (error.response) {
                 setAlertMessage(`Login failed: ${error.response.data.message}`);
@@ -51,10 +58,10 @@ const LoginPage = () => {
                             <input
                                 className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-500 bg-white border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
                                 type="text"
-                                placeholder="username"
-                                aria-label="username"
+                                placeholder="Username"
+                                aria-label="Username"
                                 value={username}
-                                onChange={(e) => setusername(e.target.value)}
+                                onChange={(e) => setUsername(e.target.value)}
                             />
                         </div>
                         <div className="w-full mt-4">
@@ -79,7 +86,7 @@ const LoginPage = () => {
                     </form>
                 </div>
                 <div className="flex items-center justify-center py-4 text-center bg-gray-50 dark:bg-gray-700">
-                    <span className="text-sm text-gray-600 dark:text-gray-200">Dont have an account? </span>
+                    <span className="text-sm text-gray-600 dark:text-gray-200">Don't have an account? </span>
                     <a href="/Register" className="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline">Register</a>
                 </div>
             </div>
