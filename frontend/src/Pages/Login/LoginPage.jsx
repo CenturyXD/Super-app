@@ -11,7 +11,11 @@ const LoginPage = () => {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('');
     const navigate = useNavigate();
+<<<<<<< HEAD
     const { login } = useAuth(); // Use the login function from context
+=======
+    const { login } = useAuth(); // ใช้ฟังก์ชัน login จาก context
+>>>>>>> d1eb0b3d2f48c6536b8af5d2bda9a333f8bb0b0c
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,12 +27,20 @@ const LoginPage = () => {
                 password,
             });
 
+<<<<<<< HEAD
             // Extract token and username from the response
             const token = response.data.token;
             const usernameFromResponse = response.data.user.name;
 
             // Save the token and username in local storage or context
             login(token, usernameFromResponse);
+=======
+            // Assuming the response contains a token
+            const token = response.data.token;
+
+            // Save the token in local storage or context
+            login(token);
+>>>>>>> d1eb0b3d2f48c6536b8af5d2bda9a333f8bb0b0c
             
             setAlertMessage('Login successful!');
             setAlertSeverity('success');
