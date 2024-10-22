@@ -14,6 +14,7 @@ const LoginPage = () => {
     const { login } = useAuth(); // Use the login function from context
 
     const handleSubmit = async (e) => {
+        console.log('Login form submitted');
         e.preventDefault();
         setError('');
         const url = import.meta.env.VITE_API_URL;
@@ -23,9 +24,14 @@ const LoginPage = () => {
                 password,
             });
 
+            console.log('Response from server:', response);
+
             // Extract token and username from the response
             const token = response.data.token;
             const usernameFromResponse = response.data.user.name;
+
+            console.log('Extracted token:', token);
+            console.log('Extracted username:', usernameFromResponse);
 
             // Save the token and username in local storage or context
             login(token, usernameFromResponse);
